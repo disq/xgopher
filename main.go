@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"flag"
 	"image"
 	"image/color"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -61,7 +63,19 @@ func main() {
 		}
 		defer w.Release()
 
-		mascot, err := newMascot(assetFile, s, Eye{
+		var assetReader io.Reader
+		if !debug {
+			assetReader = bytes.NewReader(MustAsset(assetFile))
+		} else {
+			f, err := os.Open(assetFile)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer f.Close()
+			assetReader = f
+		}
+
+		mascot, err := newMascot(assetReader, s, Eye{
 			Background:        Circle{image.Point{527, 338}, 176, getBgForEye(0)}, // Relative to image
 			Pupil:             Circle{image.Point{80, 193}, 63, color.Black},      // Relative to Background (125x126 @ 362,286)
 			Glare:             Circle{image.Point{81, 78}, 16, color.White},       // Relative to Pupil (32x32 @ 427,348)

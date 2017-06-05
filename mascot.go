@@ -3,9 +3,8 @@ package main
 import (
 	"image"
 	"image/color"
-	"os"
-
 	_ "image/png"
+	"io"
 
 	"golang.org/x/exp/shiny/screen"
 	"golang.org/x/image/draw"
@@ -53,14 +52,8 @@ type Mascot struct {
 	Eyes []Eye
 }
 
-func newMascot(filename string, s screen.Screen, eyePositions ...Eye) (*Mascot, error) {
-	f, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
-
-	im, _, err := image.Decode(f)
+func newMascot(asset io.Reader, s screen.Screen, eyePositions ...Eye) (*Mascot, error) {
+	im, _, err := image.Decode(asset)
 	if err != nil {
 		return nil, err
 	}
