@@ -12,4 +12,4 @@ fmt:
 clean:
 	rm -vf xgopher
 
-.PHONY: xgopher fmt clean build
+.PHONY: xgopher fmt clean build gen
