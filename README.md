@@ -2,6 +2,8 @@
 
 xgopher is a giant hack for an xeyes variant.
 
+![demo](./doc/recording.gif)
+
 # Installation
 
     go get -u github.com/disq/xgopher
